@@ -1,3 +1,45 @@
+<?php
+
+$error = "";
+$successMessage = "";
+
+if ($_POST) {
+    
+    if (!$_POST["email"]) {
+        $error .= "An email address is required.<br>";
+    }
+    
+    if (!$_POST["subject"]) {
+        $error .= "The subject is required.<br>";
+    }
+    
+    if (!$_POST["body"]) {
+        $error .= "The content field is required.<br>";
+    }
+    
+    if ($_POST["email"] && filter_var($_POST["email"], FILTER_VALIDATE_EMAIL) == false) {
+        $error .= "The email address is invalid.<br>";
+    }
+    
+    if ($error != "") {
+        $error = '<div class="alert alert-danger" role="alert"><p><strong>There were error(s) in your form:</strong></p>'.$error.'</div>';
+    } else {
+        $emailTo = "gurnaindeepsingh@gmail.com";
+        $subject = $_POST["subject"];
+        $body = $_POST["body"];
+        $headers = "From: ".$_POST["email"];
+        
+        if (mail($emailTo, $subject, $body, $headers)){
+            $successMessage = '<div class="alert alert-success" role="alert">Your message was sent, we\'ll get back to you ASAP!</div>';
+        } else {
+            $successMessage = '<div class="alert alert-danger" role="alert">Your message couldn\'t be sent - please try again later</div>';
+        }
+    }
+    
+}
+
+?>
+
 <!doctype html>
 <html lang="en">
     <head>
@@ -249,9 +291,6 @@
         
         <script type="text/javascript">
             
-            (function($) {
-                "use strict";
-        
                 $('a.js-smooth[href*="#"]:not([href="#"])').click(function() {
                     if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
                         var target = $(this.hash);
@@ -283,7 +322,33 @@
                 navbarCollapse();
                 $(window).scroll(navbarCollapse);
                 
-            })(jQuery);
+                $("form").submit(function(e) {
+                
+                var error = "";
+                
+                if ($("#email").val() == "") {
+                    error += "The email field is required.<br>";
+                }
+                
+                if ($("#subject").val() == "") {
+                    error += "The subject field is required.<br>";
+                }
+                
+                if ($("#body").val() == "") {
+                    error += "The content field is required.";
+                }
+                
+                if (error != "") {
+                    $("#error").html('<div class="alert alert-danger" role="alert"><p><strong>There were error(s) in your form:</strong></p>'+error+'</div>');
+                    
+                    return false;
+                    
+                } else {
+                    
+                    return true;
+                    
+            });
+                    
         </script>
     
     </body>
