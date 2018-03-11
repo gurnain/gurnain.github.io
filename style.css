@@ -1,0 +1,26 @@
+
+        h1 {
+            font-size: 35px;
+        }
+        
+        #time-text {
+            font-weight: bold;
+        }
+        
+        div {
+            height: 590px;
+            width: 100%;
+            
+        }
+        
+        #circle {
+            position: relative;
+            height: 200px;
+            width: 200px;
+            border-radius: 50%;
+            background-color: red;
+        }
+        
+        body {
+            font-family: sans-serif;
+        }
